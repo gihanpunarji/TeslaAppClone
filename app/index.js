@@ -5,6 +5,7 @@ import {
   View,
   Image,
   FlatList,
+  StatusBar,
 } from "react-native";
 import {
   FontAwesome,
@@ -16,17 +17,11 @@ import {
 } from "@expo/vector-icons";
 import car from "../assets/images/car.png";
 import menuOptions from "../assets/menuOptions";
+import menuOption from "../components/menuOption";
 
-export default function Page() {
+const Controls = () => {
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <View>
-          <Text style={styles.title}>My Model S</Text>
-          <Text style={styles.subtitle}>Parked.</Text>
-        </View>
-        <FontAwesome name="user-circle" size={30} color="gray" />
-      </View>
+    <>
       <Image style={styles.image} source={car} resizeMode="contain" />
       <View style={styles.controls}>
         <Entypo name="lock" size={26} color="gray" />
@@ -34,26 +29,27 @@ export default function Page() {
         <FontAwesome5 name="bolt" size={26} color="gray" />
         <Ionicons name="car-sport-sharp" size={26} color="gray" />
       </View>
+    </>
+  );
+};
+
+export default function Page() {
+  return (
+    <SafeAreaView style={styles.container}>
+      <StatusBar hidden={true} />
+      <View style={styles.header}>
+        <View>
+          <Text style={styles.title}>My Model S</Text>
+          <Text style={styles.subtitle}>Parked.</Text>
+        </View>
+        <FontAwesome name="user-circle" size={30} color="gray" />
+      </View>
 
       <FlatList
         data={menuOptions}
         showsVerticalScrollIndicator={false}
-        renderItem={({ item }) => (
-          <View style={styles.options}>
-            <MaterialCommunityIcons
-              name={item.iconName}
-              size={32}
-              color="gray"
-            />
-            <Text style={styles.optionText}>{item.name}</Text>
-            <MaterialIcons
-              name="keyboard-arrow-right"
-              size={24}
-              color="gray"
-              style={{ marginLeft: "auto" }}
-            />
-          </View>
-        )}
+        renderItem={menuOption}
+        ListHeaderComponent={Controls}
       />
     </SafeAreaView>
   );
@@ -89,19 +85,5 @@ const styles = StyleSheet.create({
   controls: {
     flexDirection: "row",
     justifyContent: "space-around",
-  },
-  options: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginLeft: 10,
-    marginRight: 10,
-    marginBottom: 20,
-    marginTop: 20,
-  },
-  optionText: {
-    fontSize: 18,
-    paddingLeft: 8,
-    color: "#eee",
-    fontWeight: "bold",
   },
 });
